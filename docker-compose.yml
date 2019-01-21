@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  home_frontend:
+    image: 'reg.xiaoneng.cn/oa/home_frontend:master'
+    container_name: home_frontend
+    restart: always
+    ports:
+      - '8060:8060'
+    depends_on:
+      - home_backend
+    environment:
+      HOME_BACKEND_URL: 192.168.30.109
+      HOME_FRONTEND_URL: 192.168.30.109:8008
+  home_backend:
+    image: 'reg.xiaoneng.cn/oa/home_backend:master'
+    container_name: home_backend
+    environment:
+      home_env: develop
+      HOME_DB_HOST: 192.168.30.109
+      HOME_DB_NAME: oa_platform
+      HOME_DB_PWD: tYhep69NeUckDNLnCgxs
+      HOME_DB_PORT: 3306
+      HOME_DB_USER: root
+      HOME_REDIS_PORT: 6379
+      HOME_REDIS_PWD: 111111
+      HOME_REDIS_SERVER: 192.168.30.109
+    restart: always
+    ports:
+      - '8008:8008'
+    depends_on:
+      - redis
+    entrypoint: ''
